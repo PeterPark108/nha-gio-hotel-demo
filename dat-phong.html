@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Đặt phòng · Nhà Gió (demo)</title>
+<meta name="description" content="Đặt phòng Nhà Gió (demo): chọn ngày, số khách, xem tạm tính. Xác nhận chỉ lưu trong trình duyệt – không gửi đi đâu.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://example.invalid/nha-gio/dat-phong.html">
+<meta property="og:type" content="website"><meta property="og:locale" content="vi_VN"><meta property="og:site_name" content="Nhà Gió (demo)">
+<meta property="og:title" content="Đặt phòng · Nhà Gió (demo)"><meta property="og:description" content="Đặt phòng Nhà Gió (demo): chọn ngày, số khách, xem tạm tính. Xác nhận chỉ lưu trong trình duyệt – không gửi đi đâu."><meta property="og:url" content="https://example.invalid/nha-gio/dat-phong.html"><meta property="og:image" content="https://example.invalid/nha-gio/assets/photos/hero/01-toan-canh.jpg"><meta property="og:image:width" content="1600"><meta property="og:image:height" content="1066"><meta property="og:image:alt" content="Hồ bơi vô cực giữa hàng dừa nhìn ra biển">
+<meta name="theme-color" content="#b5472c">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/site.css">
+<script>(function(d){d.classList.add('js');})(document.documentElement)</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Hotel", "name": "Nhà Gió (bản demo)", "description": "Website demo – khách sạn giả lập, không phải doanh nghiệp thật. Nội dung, giá và địa chỉ đều là minh họa.", "url": "https://example.invalid/nha-gio/", "address": {"@type": "PostalAddress", "streetAddress": "Địa chỉ minh họa", "addressCountry": "VN"}, "telephone": "0900 000 000", "priceRange": "Giá minh họa", "checkinTime": "14:00", "checkoutTime": "12:00"}</script>
+</head><body>
+<a class="skip" href="#main">Bỏ qua, đến nội dung chính</a>
+<div class="demo-bar" role="note"><b>Bản demo.</b> Nội dung, giá và hình ảnh đều là minh họa – không nhận đặt phòng thật.</div>
+<header class="top"><div class="wrap top-in">
+<a class="logo" href="index.html"><span class="lg-ico" aria-hidden="true">⌂</span><span>Nhà Gió<small>Khách sạn ven biển · demo</small></span></a>
+<button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="nav"><span aria-hidden="true">☰</span><span class="t">Menu</span></button>
+<nav id="nav" class="nav" aria-label="Điều hướng chính"><ul><li><a href="index.html">Trang chủ</a></li><li><a href="phong/index.html">Loại phòng</a></li><li><a href="tien-ich.html">Tiện ích</a></li><li><a href="thu-vien-anh.html">Thư viện ảnh</a></li><li><a href="uu-dai.html">Ưu đãi</a></li><li><a href="danh-gia.html">Đánh giá</a></li><li><a href="lien-he.html">Liên hệ</a></li><li><a class="cta" href="dat-phong.html" aria-current=page>Đặt phòng</a></li></ul></nav>
+</div></header>
+<main id="main" tabindex="-1">
+<section class="page-h"><div class="wrap"><nav class="crumb" aria-label="Đường dẫn"><ol><li><a href="index.html">Trang chủ</a></li><li aria-current="page">Đặt phòng</li></ol></nav><h1>Đặt phòng</h1><p>Điền thông tin để tạo yêu cầu đặt phòng minh họa. Không thu tiền, không gửi dữ liệu – xác nhận chỉ lưu trong trình duyệt của bạn (localStorage).</p></div></section>
+<section class="sec" style="padding-top:24px"><div class="wrap">
+<div id="bkWrap" class="bk-grid"><form id="bookForm" class="panel" novalidate aria-describedby="formErr">
+<fieldset><legend class="h">1. Phòng &amp; ngày</legend>
+<div class="fg"><label for="room">Loại phòng</label><select id="room" name="room" required aria-describedby="room-err"></select><p class="err" id="room-err"></p></div>
+<div class="row2"><div class="fg"><label for="ci">Nhận phòng</label><input id="ci" name="ci" type="date" required aria-describedby="ci-err"><p class="err" id="ci-err"></p></div>
+<div class="fg"><label for="co">Trả phòng</label><input id="co" name="co" type="date" required aria-describedby="co-err"><p class="err" id="co-err"></p></div></div>
+<div class="fg"><label for="g">Số khách</label><input id="g" name="g" type="number" min="1" max="8" inputmode="numeric" required aria-describedby="g-err"><p class="err" id="g-err"></p></div></fieldset>
+<fieldset><legend class="h">2. Thông tin liên hệ</legend>
+<div class="fg"><label for="name">Họ và tên</label><input id="name" name="name" autocomplete="name" required aria-describedby="name-err"><p class="err" id="name-err"></p></div>
+<div class="row2"><div class="fg"><label for="phone">Số điện thoại</label><input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="0900 000 000" required aria-describedby="phone-err"><p class="err" id="phone-err"></p></div>
+<div class="fg"><label for="email">Email (không bắt buộc)</label><input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-err"><p class="err" id="email-err"></p></div></div>
+<div class="fg"><label for="note">Yêu cầu thêm (không bắt buộc)</label><textarea id="note" name="note"></textarea></div>
+<label class="chk" for="agree"><input id="agree" name="agree" type="checkbox" aria-describedby="agree-err"><span>Tôi đã đọc <a href="chinh-sach.html">chính sách</a> và hiểu đây là bản demo</span></label><p class="err" id="agree-err"></p></fieldset>
+<p class="err" id="formErr" role="alert"></p>
+<button class="btn primary lg full" type="submit">Gửi yêu cầu đặt phòng (demo)</button></form>
+<aside aria-labelledby="h-sum"><div class="panel"><h2 id="h-sum">Tạm tính</h2><div id="sum" aria-live="polite"></div><p class="sm muted">Tạm tính = giá/đêm × số đêm + phí dọn phòng + phí dịch vụ 5%. Tất cả là <b>giá minh họa</b>.</p></div></aside></div>
+<div id="okBox" class="panel ok" hidden><div class="ico" aria-hidden="true">✓</div><h2 id="okTitle" tabindex="-1">Đã ghi nhận yêu cầu (demo)</h2><p>Mã tham chiếu: <span class="code" id="okCode"></span></p>
+<dl class="calc" id="okInfo" style="max-width:420px;margin:16px auto;text-align:left"></dl><p class="note" style="max-width:520px;margin:0 auto 16px">Đây là bản demo: yêu cầu chỉ được lưu trong trình duyệt này, không có email/SMS nào được gửi và không có phòng nào được giữ thật.</p>
+<button class="btn" id="again" type="button">Tạo yêu cầu khác</button> <a class="btn primary" href="index.html">Về trang chủ</a></div>
+</div></section>
+</main>
+<footer class="foot"><div class="wrap">
+<div class="foot-in">
+<div><h2>Nhà Gió (demo)</h2><p>Địa chỉ minh họa, thành phố ven biển, Việt Nam<br>Điện thoại: 0900 000 000 (số mẫu)<br>Email: xinchao@vidu.test (mẫu)</p></div>
+<div><h2>Lưu trú</h2><ul><li><a href="phong/index.html">Loại phòng</a></li><li><a href="dat-phong.html">Đặt phòng</a></li><li><a href="uu-dai.html">Ưu đãi</a></li><li><a href="tien-ich.html">Tiện ích &amp; dịch vụ</a></li></ul></div>
+<div><h2>Thông tin</h2><ul><li><a href="faq.html">Câu hỏi thường gặp</a></li><li><a href="chinh-sach.html">Chính sách</a></li><li><a href="lien-he.html">Vị trí &amp; liên hệ</a></li><li><a href="danh-gia.html">Đánh giá mẫu</a></li></ul></div>
+<div><h2>Bản cũ</h2><ul><li><a href="homestay-v1/index.html">Demo homestay v1</a></li><li><a href="homestay-v1/index.html#/quan-ly">Trang quản lý (demo)</a></li><li><a href="thu-vien-anh.html">Thư viện ảnh</a></li><li><a href="nguon-anh.html">Nguồn ảnh</a></li></ul></div>
+</div>
+<p class="demo"><b>Lưu ý bản demo:</b> Nhà Gió là khách sạn giả lập để trình diễn giao diện. Giá, đánh giá, địa chỉ, số điện thoại đều là minh họa; không có giấy phép kinh doanh thật; ảnh là ảnh minh họa có giấy phép Unsplash, không chụp tại cơ sở (<a href="nguon-anh.html">nguồn ảnh</a>). Không có dữ liệu nào được gửi lên máy chủ. © <span data-year>2026</span></p>
+</div></footer>
+<div id="toasts" aria-live="polite"></div>
+<script src="js/data.js"></script><script src="js/art.js"></script><script src="assets/site.js"></script>
+</body></html>

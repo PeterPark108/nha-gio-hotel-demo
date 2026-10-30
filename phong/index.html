@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Các loại phòng · Nhà Gió (demo)</title>
+<meta name="description" content="Danh sách 7 loại phòng tại Nhà Gió (demo): lọc theo loại, số khách, sắp xếp theo giá minh họa.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="https://example.invalid/nha-gio/phong/index.html">
+<meta property="og:type" content="website"><meta property="og:locale" content="vi_VN"><meta property="og:site_name" content="Nhà Gió (demo)">
+<meta property="og:title" content="Các loại phòng · Nhà Gió (demo)"><meta property="og:description" content="Danh sách 7 loại phòng tại Nhà Gió (demo): lọc theo loại, số khách, sắp xếp theo giá minh họa."><meta property="og:url" content="https://example.invalid/nha-gio/phong/index.html"><meta property="og:image" content="https://example.invalid/nha-gio/assets/photos/hero/01-toan-canh.jpg"><meta property="og:image:width" content="1600"><meta property="og:image:height" content="1066"><meta property="og:image:alt" content="Hồ bơi vô cực giữa hàng dừa nhìn ra biển">
+<meta name="theme-color" content="#b5472c">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script>(function(d){d.classList.add('js');})(document.documentElement)</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Hotel", "name": "Nhà Gió (bản demo)", "description": "Website demo – khách sạn giả lập, không phải doanh nghiệp thật. Nội dung, giá và địa chỉ đều là minh họa.", "url": "https://example.invalid/nha-gio/", "address": {"@type": "PostalAddress", "streetAddress": "Địa chỉ minh họa", "addressCountry": "VN"}, "telephone": "0900 000 000", "priceRange": "Giá minh họa", "checkinTime": "14:00", "checkoutTime": "12:00"}</script>
+</head><body>
+<a class="skip" href="#main">Bỏ qua, đến nội dung chính</a>
+<div class="demo-bar" role="note"><b>Bản demo.</b> Nội dung, giá và hình ảnh đều là minh họa – không nhận đặt phòng thật.</div>
+<header class="top"><div class="wrap top-in">
+<a class="logo" href="../index.html"><span class="lg-ico" aria-hidden="true">⌂</span><span>Nhà Gió<small>Khách sạn ven biển · demo</small></span></a>
+<button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="nav"><span aria-hidden="true">☰</span><span class="t">Menu</span></button>
+<nav id="nav" class="nav" aria-label="Điều hướng chính"><ul><li><a href="../index.html">Trang chủ</a></li><li><a href="../phong/index.html" aria-current=page>Loại phòng</a></li><li><a href="../tien-ich.html">Tiện ích</a></li><li><a href="../thu-vien-anh.html">Thư viện ảnh</a></li><li><a href="../uu-dai.html">Ưu đãi</a></li><li><a href="../danh-gia.html">Đánh giá</a></li><li><a href="../lien-he.html">Liên hệ</a></li><li><a class="cta" href="../dat-phong.html">Đặt phòng</a></li></ul></nav>
+</div></header>
+<main id="main" tabindex="-1">
+<section class="page-h"><div class="wrap"><nav class="crumb" aria-label="Đường dẫn"><ol><li><a href="../index.html">Trang chủ</a></li><li aria-current="page">Loại phòng</li></ol></nav><h1>Các loại phòng</h1><p>Lọc theo loại phòng và số khách, sắp xếp theo giá. Giá hiển thị là giá minh họa mỗi đêm.</p></div></section>
+<section class="sec" style="padding-top:24px"><div class="wrap">
+<div class="toolbar" role="search" aria-label="Lọc phòng">
+<div class="fg"><label for="f-type">Loại phòng</label><select id="f-type"><option value="">Tất cả</option><option>Bungalow</option><option>Nguyên căn</option><option>Phòng gia đình</option><option>Phòng đôi</option><option>Studio</option></select></div>
+<div class="fg"><label for="f-guests">Số khách tối thiểu</label><select id="f-guests"><option value="">Bất kỳ</option><option value="2">2+ khách</option><option value="3">3+ khách</option><option value="4">4+ khách</option><option value="6">6+ khách</option><option value="8">8+ khách</option></select></div>
+<div class="fg"><label for="f-sort">Sắp xếp</label><select id="f-sort"><option value="">Đề xuất</option><option value="asc">Giá thấp → cao</option><option value="desc">Giá cao → thấp</option><option value="guests">Sức chứa lớn nhất</option></select></div>
+<p class="count muted" id="count" aria-live="polite">7 loại phòng</p></div>
+<ul class="grid" id="roomList" style="list-style:none;padding:0;margin:0"><li data-room data-type="Phòng đôi" data-guests="2" data-price="850000" data-order="0"><article class="card">
+<div class="art photo "><img src="../assets/photos/phong-song-bien/03-noi-that.jpg" srcset="../assets/photos/phong-song-bien/03-noi-that-sm.jpg 640w, ../assets/photos/phong-song-bien/03-noi-that-md.jpg 960w, ../assets/photos/phong-song-bien/03-noi-that.jpg 1600w" sizes="(max-width:760px) 100vw, 400px" width="1600" height="1066" alt="Góc tiếp khách với cửa kính nhìn ra biển" loading="lazy" decoding="async"></div>
+<div class="cb"><p class="sm muted" style="margin:0">Phòng đôi</p><h3><a href="../phong/phong-song-bien.html">Phòng Sóng Biển</a></h3>
+<p class="meta">2 khách · 1 giường đôi · 28 m²</p>
+<p class="price"><b>850.000₫</b> <span class="muted sm">/ đêm · giá minh họa</span></p></div></article></li><li data-room data-type="Bungalow" data-guests="3" data-price="1200000" data-order="1"><article class="card">
+<div class="art photo "><img src="../assets/photos/bungalow-dua/01-ngoai-that.jpg" srcset="../assets/photos/bungalow-dua/01-ngoai-that-sm.jpg 640w, ../assets/photos/bungalow-dua/01-ngoai-that-md.jpg 960w, ../assets/photos/bungalow-dua/01-ngoai-that.jpg 1600w" sizes="(max-width:760px) 100vw, 400px" width="1600" height="1067" alt="Bungalow mái lá giữa hàng dừa" loading="lazy" decoding="async"></div>
+<div class="cb"><p class="sm muted" style="margin:0">Bungalow</p><h3><a href="../phong/bungalow-dua.html">Bungalow Dừa</a></h3>
+<p class="meta">3 khách · 1 giường đôi + 1 sofa giường · 35 m²</p>
+<p class="price"><b>1.200.000₫</b> <span class="muted sm">/ đêm · giá minh họa</span></p></div></article></li><li data-room data-type="Nguyên căn" data-guests="6" data-price="2200000" data-order="2"><article class="card">
+<div class="art photo "><img src="../assets/photos/can-doi-thong/02-phong-khach.jpg" srcset="../assets/photos/can-doi-thong/02-phong-khach-sm.jpg 640w, ../assets/photos/can-doi-thong/02-phong-khach-md.jpg 960w, ../assets/photos/can-doi-thong/02-phong-khach.jpg 1600w" sizes="(max-width:760px) 100vw, 400px" width="1600" height="1066" alt="Phòng khách ốp gỗ ấm cúng" loading="lazy" decoding="async"></div>
+<div class="cb"><p class="sm muted" style="margin:0">Nguyên căn</p><h3><a href="../phong/can-doi-thong.html">Căn Đồi Thông</a></h3>
+<p class="meta">6 khách · 3 phòng ngủ · 90 m²</p>
+<p class="price"><b>2.200.000₫</b> <span class="muted sm">/ đêm · giá minh họa</span></p></div></article></li><li data-room data-type="Phòng đôi" data-guests="2" data-price="650000" data-order="3"><article class="card">
+<div class="art photo "><img src="../assets/photos/phong-gac-mai/01-phong-ngu.jpg" srcset="../assets/photos/phong-gac-mai/01-phong-ngu-sm.jpg 640w, ../assets/photos/phong-gac-mai/01-phong-ngu-md.jpg 960w, ../assets/photos/phong-gac-mai/01-phong-ngu.jpg 1600w" sizes="(max-width:760px) 100vw, 400px" width="1600" height="1067" alt="Phòng gác mái với giường đôi dưới mái gỗ" loading="lazy" decoding="async"></div>
+<div class="cb"><p class="sm muted" style="margin:0">Phòng đôi</p><h3><a href="../phong/phong-gac-mai.html">Phòng Gác Mái</a></h3>
+<p class="meta">2 khách · 1 giường đôi · 22 m²</p>
+<p class="price"><b>650.000₫</b> <span class="muted sm">/ đêm · giá minh họa</span></p></div></article></li><li data-room data-type="Phòng gia đình" data-guests="4" data-price="1500000" data-order="4"><article class="card">
+<div class="art photo "><img src="../assets/photos/phong-gia-dinh-hoa-giay/01-phong-ngu.jpg" srcset="../assets/photos/phong-gia-dinh-hoa-giay/01-phong-ngu-sm.jpg 640w, ../assets/photos/phong-gia-dinh-hoa-giay/01-phong-ngu-md.jpg 960w, ../assets/photos/phong-gia-dinh-hoa-giay/01-phong-ngu.jpg 1600w" sizes="(max-width:760px) 100vw, 400px" width="1600" height="1066" alt="Phòng gia đình hai giường đôi" loading="lazy" decoding="async"></div>
+<div class="cb"><p class="sm muted" style="margin:0">Phòng gia đình</p><h3><a href="../phong/phong-gia-dinh-hoa-giay.html">Phòng Gia Đình Hoa Giấy</a></h3>
+<p class="meta">4 khách · 2 giường đôi · 42 m²</p>
+<p class="price"><b>1.500.000₫</b> <span class="muted sm">/ đêm · giá minh họa</span></p></div></article></li><li data-room data-type="Studio" data-guests="3" data-price="1000000" data-order="5"><article class="card">
+<div class="art photo "><img src="../assets/photos/studio-ghenh-rang/01-phong-ngu.jpg" srcset="../assets/photos/studio-ghenh-rang/01-phong-ngu-sm.jpg 640w, ../assets/photos/studio-ghenh-rang/01-phong-ngu-md.jpg 960w, ../assets/photos/studio-ghenh-rang/01-phong-ngu.jpg 1600w" sizes="(max-width:760px) 100vw, 400px" width="1600" height="901" alt="Studio có giường và ánh sáng tự nhiên" loading="lazy" decoding="async"></div>
+<div class="cb"><p class="sm muted" style="margin:0">Studio</p><h3><a href="../phong/studio-ghenh-rang.html">Studio Ghềnh Ráng</a></h3>
+<p class="meta">3 khách · 1 giường đôi + 1 giường đơn · 32 m²</p>
+<p class="price"><b>1.000.000₫</b> <span class="muted sm">/ đêm · giá minh họa</span></p></div></article></li><li data-room data-type="Nguyên căn" data-guests="8" data-price="3500000" data-order="6"><article class="card">
+<div class="art photo "><img src="../assets/photos/villa-ho-boi-eo-gio/01-ho-boi.jpg" srcset="../assets/photos/villa-ho-boi-eo-gio/01-ho-boi-sm.jpg 640w, ../assets/photos/villa-ho-boi-eo-gio/01-ho-boi-md.jpg 960w, ../assets/photos/villa-ho-boi-eo-gio/01-ho-boi.jpg 1600w" sizes="(max-width:760px) 100vw, 400px" width="1600" height="1066" alt="Hồ bơi riêng của villa" loading="lazy" decoding="async"></div>
+<div class="cb"><p class="sm muted" style="margin:0">Nguyên căn</p><h3><a href="../phong/villa-ho-boi-eo-gio.html">Villa Hồ Bơi Eo Gió</a></h3>
+<p class="meta">8 khách · 4 phòng ngủ · 160 m²</p>
+<p class="price"><b>3.500.000₫</b> <span class="muted sm">/ đêm · giá minh họa</span></p></div></article></li></ul>
+<div class="empty" id="empty" hidden><h2>Không có phòng phù hợp</h2><p class="muted">Thử bỏ bớt điều kiện lọc.</p><button class="btn primary" id="resetF" type="button">Xóa bộ lọc</button></div>
+</div></section>
+</main>
+<footer class="foot"><div class="wrap">
+<div class="foot-in">
+<div><h2>Nhà Gió (demo)</h2><p>Địa chỉ minh họa, thành phố ven biển, Việt Nam<br>Điện thoại: 0900 000 000 (số mẫu)<br>Email: xinchao@vidu.test (mẫu)</p></div>
+<div><h2>Lưu trú</h2><ul><li><a href="../phong/index.html">Loại phòng</a></li><li><a href="../dat-phong.html">Đặt phòng</a></li><li><a href="../uu-dai.html">Ưu đãi</a></li><li><a href="../tien-ich.html">Tiện ích &amp; dịch vụ</a></li></ul></div>
+<div><h2>Thông tin</h2><ul><li><a href="../faq.html">Câu hỏi thường gặp</a></li><li><a href="../chinh-sach.html">Chính sách</a></li><li><a href="../lien-he.html">Vị trí &amp; liên hệ</a></li><li><a href="../danh-gia.html">Đánh giá mẫu</a></li></ul></div>
+<div><h2>Bản cũ</h2><ul><li><a href="../homestay-v1/index.html">Demo homestay v1</a></li><li><a href="../homestay-v1/index.html#/quan-ly">Trang quản lý (demo)</a></li><li><a href="../thu-vien-anh.html">Thư viện ảnh</a></li><li><a href="../nguon-anh.html">Nguồn ảnh</a></li></ul></div>
+</div>
+<p class="demo"><b>Lưu ý bản demo:</b> Nhà Gió là khách sạn giả lập để trình diễn giao diện. Giá, đánh giá, địa chỉ, số điện thoại đều là minh họa; không có giấy phép kinh doanh thật; ảnh là ảnh minh họa có giấy phép Unsplash, không chụp tại cơ sở (<a href="../nguon-anh.html">nguồn ảnh</a>). Không có dữ liệu nào được gửi lên máy chủ. © <span data-year>2026</span></p>
+</div></footer>
+<div id="toasts" aria-live="polite"></div>
+<script src="../js/data.js"></script><script src="../js/art.js"></script><script src="../assets/site.js"></script>
+</body></html>

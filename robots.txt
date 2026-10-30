@@ -1,0 +1,4 @@
+# Bản demo – chặn lập chỉ mục. Bỏ Disallow khi lên web thật.
+User-agent: *
+Disallow: /
+Sitemap: https://example.invalid/nha-gio/sitemap.xml
