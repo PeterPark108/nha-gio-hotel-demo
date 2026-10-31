@@ -22,6 +22,8 @@ def inline(t, root=''):
         s = safe_url(u, img=True)
         if not s:
             return alt
+        if s.startswith('/assets/'):
+            s = s[1:]
         if s.startswith('assets/'):
             s = root + s
         return f'<img src="{E(s)}" alt="{alt}" loading="lazy" decoding="async">'
@@ -32,6 +34,8 @@ def inline(t, root=''):
         if not s:
             return txt
         ext = s.startswith('http')
+        if s.startswith('/') and root and not root.startswith('/'):
+            s = root + s[1:]              # /phong/... -> ../../phong/... để chạy được cả khi web nằm trong thư mục con
         return f'<a href="{E(s)}"' + (' rel="noopener nofollow ugc" target="_blank"' if ext else '') + f'>{txt}</a>'
     t = re.sub(r'(?<!!)\[([^\]]+)\]\(([^)\s]+)\)', link, t)
     t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
@@ -56,7 +60,7 @@ def render(md: str, root='') -> str:
         if not s.strip():
             flush()
         elif m:
-            flush(); lvl = len(m.group(1)) + 1          # # -> h2 (trang đã có h1 là tiêu đề bài)
+            flush(); lvl = max(2, len(m.group(1)))     # # và ## -> h2, ### -> h3 (h1 là tiêu đề bài)
             out.append(f'<h{lvl}>{inline(m.group(2), root)}</h{lvl}>')
         elif ul or ol:
             kind = 'ul' if ul else 'ol'
