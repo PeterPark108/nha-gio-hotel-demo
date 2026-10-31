@@ -115,3 +115,13 @@ Tất cả ảnh phòng/phong cảnh là **tranh minh họa SVG tự vẽ bằng
   **Xem lại intro:** mở tab mới (phiên mới) hoặc chạy trong Console: `sessionStorage.removeItem('nhagio_intro_seen'); location.reload()`.
 - Ảnh có thêm bản `-md.jpg` (960px) trong srcset để mobile tải nhẹ hơn; ảnh hero được preload.
 - Kiểm tra: `python3 tools/check_links.py`, `tools/shoot.py`, `tools/flow.py` (2 tool này chạy với reduced-motion để chụp tĩnh), `tools/motion.py` (khung intro, hover/reveal, video `screenshots/hotel-v2/motion-demo.mp4`).
+
+## Trang quản trị (nhánh admin-v1)
+
+Trang công khai được sinh từ `data/site.json`, `data/banners.json`, `data/posts.json` bằng `python3 build.py`.
+Thư mục `admin/` là app quản trị (Flask) để chủ khách sạn tự đổi banner, chân trang, đăng tin – chạy trên VPS, đường dẫn và khóa bí mật nằm trong file env của máy chủ (mẫu: `deploy/admin.env.example`).
+
+- Hướng dẫn sử dụng: [ADMIN.md](ADMIN.md)
+- Triển khai: [DEPLOY-VPS.md](DEPLOY-VPS.md)
+- Kiểm thử: `python3 tests/test_security.py` (bảo mật, không cần mạng), `tests/e2e_admin.py` + `tests/e2e_public.py` (Playwright)
+- Chạy thử trên máy: `NHAGIO_ADMIN_PATH=quan-tri-thu-nghiem-local NHAGIO_SECRET=<32+ ký tự ngẫu nhiên> NHAGIO_COOKIE_SECURE=1 python3 -m admin.app` rồi mở `http://localhost:8840/quan-tri-thu-nghiem-local/dang-nhap` (tạo tài khoản thử bằng `python3 -m admin.manage set-password`).

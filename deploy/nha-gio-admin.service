@@ -1,0 +1,25 @@
+[Unit]
+Description=Nha Gio - trang quan tri (Flask + gunicorn)
+After=network.target
+
+[Service]
+User=nhagio
+Group=nhagio
+WorkingDirectory=/srv/nha-gio/site
+EnvironmentFile=/etc/nha-gio/admin.env
+ExecStart=/srv/nha-gio/venv/bin/gunicorn -w 1 --threads 4 --timeout 120 -b 127.0.0.1:8840 admin.wsgi:app
+Restart=on-failure
+UMask=0022
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/nha-gio
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryMax=600M
+
+[Install]
+WantedBy=multi-user.target
