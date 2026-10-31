@@ -14,6 +14,18 @@ ROOMS = [  # khớp SEED_ROOMS trong js/data.js
  dict(id='r7',slug='villa-ho-boi-eo-gio',name='Villa Hồ Bơi Eo Gió',type='Nguyên căn',price=3500000,clean=400000,guests=8,beds='4 phòng ngủ',size=160,scene='pool',pal=6,amen=['wifi','ac','view','pool','kitchen','bbq','parking','washer','bath'],desc='Villa riêng có hồ bơi, sân hiên hướng biển và bếp lớn. Phù hợp kỳ nghỉ nhóm 6–8 người.'),
 ]
 AMEN={'wifi':('📶','Wi‑Fi'),'ac':('❄️','Điều hòa'),'view':('🌅','Hướng biển'),'hill':('🌲','Hướng đồi thông'),'balcony':('🪴','Ban công'),'tv':('📺','Smart TV'),'kitchen':('🍳','Bếp riêng'),'pool':('🏊','Hồ bơi'),'bbq':('🔥','Khu BBQ'),'parking':('🅿️','Chỗ đậu xe'),'washer':('🧺','Máy giặt'),'breakfast':('🥐','Bữa sáng'),'pet':('🐾','Cho thú cưng'),'bath':('🛁','Bồn tắm')}
+DATA=os.environ.get('NHAGIO_DATA') or os.path.join(ROOT,'data')
+def _j(n,d):
+    try: return json.load(open(os.path.join(DATA,n),encoding='utf-8'))
+    except FileNotFoundError: return d
+SET=_j('site.json',{'demo_mode':True,'name':'Nhà Gió (demo)','address':'','phone':'','email':'','social':{},'copyright':''})
+BANNERS=_j('banners.json',{'banners':[]})['banners']
+POSTS=sorted([x for x in _j('posts.json',{'posts':[]})['posts'] if x.get('status')=='published'],key=lambda x:x.get('published') or '',reverse=True)
+DEMO=SET.get('demo_mode',True) is not False
+import shutil,sys
+sys.path.insert(0,ROOT)
+from admin.mdlite import render as md_render, plain as md_plain
+SOCIAL=[('facebook','Facebook','f'),('zalo','Zalo','Z'),('instagram','Instagram','◎'),('tiktok','TikTok','♪'),('youtube','YouTube','▶')]
 PH=json.load(open(os.path.join(ROOT,'assets/photos/manifest.json'),encoding='utf-8'))['photos']
 def P(sec): return [x for x in PH if x['section']==sec]
 def img(x,p,sizes='(max-width:760px) 100vw, 50vw',eager=False):
@@ -25,7 +37,7 @@ def lbattrs(x,p,cap):
     return f'data-lb data-src="{p}{x["path"]}" data-alt="{E(x["alt_vi"])}" data-cap="{E(cap)} · Ảnh: {E(x["photographer"])} / Unsplash"'
 COVER={'phong-song-bien':2,'bungalow-dua':0,'can-doi-thong':1,'phong-gac-mai':0,'phong-gia-dinh-hoa-giay':0,'studio-ghenh-rang':0,'villa-ho-boi-eo-gio':0}
 _h=P('hero')[0]
-HERO_PRELOAD=f'\n<link rel="preload" as="image" href="{_h["path"]}" imagesrcset="{_h["thumb"]} {_h["thumb_width"]}w, {_h["md"]} {_h["md_width"]}w, {_h["path"]} {_h["width"]}w" imagesizes="100vw" fetchpriority="high">'
+HERO_PRELOAD=(f'\n<link rel="preload" as="image" href="{E(BANNERS[0]["m"])}" media="(max-width:760px)" fetchpriority="high"><link rel="preload" as="image" href="{E(BANNERS[0]["d"])}" media="(min-width:761px)" fetchpriority="high">' if BANNERS else '')
 money=lambda n: f"{n:,}".replace(',', '.')+'₫'
 NAV=[('index.html','Trang chủ'),('phong/index.html','Loại phòng'),('tien-ich.html','Tiện ích'),('thu-vien-anh.html','Thư viện ảnh'),('uu-dai.html','Ưu đãi'),('danh-gia.html','Đánh giá'),('lien-he.html','Liên hệ')]
 
@@ -54,20 +66,21 @@ INTRO_HTML='''<div class="intro" id="intro" role="dialog" aria-label="Lời chà
 def art(kind,pal,label,cls='',tag=True):
     return f'<div class="art {cls}" data-art="{kind}" data-pal="{pal}" data-label="{E(label)} (ảnh minh họa)">{"<span class=tag aria-hidden=true>Minh họa</span>" if tag else ""}</div>'
 
-def page(path,title,desc,body,current=None,jsonld=None,extra_head=''):
+def page(path,title,desc,body,current=None,jsonld=None,extra_head='',og=None,can=None,ogtype='website'):
     depth=path.count('/'); p='../'*depth
+    og=og or (SITE+'/'+P('hero')[0]['path'],P('hero')[0]['width'],P('hero')[0]['height'],P('hero')[0]['alt_vi'])
     navh=''.join(f'<li><a href="{p}{h}"{" aria-current=page" if h==current else ""}>{t}</a></li>' for h,t in NAV)
     ld=[{"@context":"https://schema.org","@type":"Hotel","name":"Nhà Gió (bản demo)","description":"Website demo – khách sạn giả lập, không phải doanh nghiệp thật. Nội dung, giá và địa chỉ đều là minh họa.","url":SITE+'/',"address":{"@type":"PostalAddress","streetAddress":"Địa chỉ minh họa","addressCountry":"VN"},"telephone":"0900 000 000","priceRange":"Giá minh họa","checkinTime":"14:00","checkoutTime":"12:00"}]
     if jsonld: ld.append(jsonld)
-    can=SITE+'/'+('' if path=='index.html' else path)
+    can=can or SITE+'/'+('' if path=='index.html' else path)
     return f'''<!doctype html>
 <html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{E(title)} · Nhà Gió (demo)</title>
 <meta name="description" content="{E(desc)}">
-<meta name="robots" content="noindex,nofollow">
+{'<meta name="robots" content="noindex,nofollow">' if DEMO else ''}
 <link rel="canonical" href="{can}">
-<meta property="og:type" content="website"><meta property="og:locale" content="vi_VN"><meta property="og:site_name" content="Nhà Gió (demo)">
-<meta property="og:title" content="{E(title)} · Nhà Gió (demo)"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{can}"><meta property="og:image" content="{SITE}/{P('hero')[0]['path']}"><meta property="og:image:width" content="{P('hero')[0]['width']}"><meta property="og:image:height" content="{P('hero')[0]['height']}"><meta property="og:image:alt" content="{E(P('hero')[0]['alt_vi'])}">
+<meta property="og:type" content="{ogtype}"><meta property="og:locale" content="vi_VN"><meta property="og:site_name" content="Nhà Gió (demo)">
+<meta property="og:title" content="{E(title)} · Nhà Gió (demo)"><meta property="og:description" content="{E(desc)}"><meta property="og:url" content="{can}"><meta property="og:image" content="{E(og[0])}">{f'<meta property="og:image:width" content="{og[1]}"><meta property="og:image:height" content="{og[2]}">' if og[1] else ''}<meta property="og:image:alt" content="{E(og[3])}">
 <meta name="theme-color" content="#b5472c">
 <link rel="icon" href="{p}assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="{p}assets/site.css">{extra_head}
@@ -75,7 +88,7 @@ def page(path,title,desc,body,current=None,jsonld=None,extra_head=''):
 <script type="application/ld+json">{json.dumps(ld if len(ld)>1 else ld[0],ensure_ascii=False)}</script>
 </head><body>
 {INTRO_HTML if path=='index.html' else ''}<a class="skip" href="#main">Bỏ qua, đến nội dung chính</a>
-<div class="demo-bar" role="note"><b>Bản demo.</b> Nội dung, giá và hình ảnh đều là minh họa – không nhận đặt phòng thật.</div>
+{'<div class="demo-bar" role="note"><b>Bản demo.</b> Nội dung, giá và hình ảnh đều là minh họa – không nhận đặt phòng thật.</div>' if DEMO else ''}
 <header class="top"><div class="wrap top-in">
 <a class="logo" href="{p}index.html"><span class="lg-ico" aria-hidden="true">⌂</span><span>Nhà Gió<small>Khách sạn ven biển · demo</small></span></a>
 <button id="menuBtn" class="menu-btn" aria-expanded="false" aria-controls="nav"><span aria-hidden="true">☰</span><span class="t">Menu</span></button>
@@ -86,12 +99,12 @@ def page(path,title,desc,body,current=None,jsonld=None,extra_head=''):
 </main>
 <footer class="foot"><div class="wrap">
 <div class="foot-in">
-<div><h2>Nhà Gió (demo)</h2><p>Địa chỉ minh họa, thành phố ven biển, Việt Nam<br>Điện thoại: 0900 000 000 (số mẫu)<br>Email: xinchao@vidu.test (mẫu)</p></div>
+{foot_contact(p)}
 <div><h2>Lưu trú</h2><ul><li><a href="{p}phong/index.html">Loại phòng</a></li><li><a href="{p}dat-phong.html">Đặt phòng</a></li><li><a href="{p}uu-dai.html">Ưu đãi</a></li><li><a href="{p}tien-ich.html">Tiện ích &amp; dịch vụ</a></li></ul></div>
-<div><h2>Thông tin</h2><ul><li><a href="{p}faq.html">Câu hỏi thường gặp</a></li><li><a href="{p}chinh-sach.html">Chính sách</a></li><li><a href="{p}lien-he.html">Vị trí &amp; liên hệ</a></li><li><a href="{p}danh-gia.html">Đánh giá mẫu</a></li></ul></div>
+<div><h2>Thông tin</h2><ul><li><a href="{p}tin-tuc/index.html">Tin tức</a></li><li><a href="{p}faq.html">Câu hỏi thường gặp</a></li><li><a href="{p}chinh-sach.html">Chính sách</a></li><li><a href="{p}lien-he.html">Vị trí &amp; liên hệ</a></li><li><a href="{p}danh-gia.html">Đánh giá mẫu</a></li></ul></div>
 <div><h2>Bản cũ</h2><ul><li><a href="{p}homestay-v1/index.html">Demo homestay v1</a></li><li><a href="{p}homestay-v1/index.html#/quan-ly">Trang quản lý (demo)</a></li><li><a href="{p}thu-vien-anh.html">Thư viện ảnh</a></li><li><a href="{p}nguon-anh.html">Nguồn ảnh</a></li></ul></div>
 </div>
-<p class="demo"><b>Lưu ý bản demo:</b> Nhà Gió là khách sạn giả lập để trình diễn giao diện. Giá, đánh giá, địa chỉ, số điện thoại đều là minh họa; không có giấy phép kinh doanh thật; ảnh là ảnh minh họa có giấy phép Unsplash, không chụp tại cơ sở (<a href="{p}nguon-anh.html">nguồn ảnh</a>). Không có dữ liệu nào được gửi lên máy chủ. © <span data-year>2026</span></p>
+{f'<p class="demo"><b>Lưu ý bản demo:</b> Nhà Gió là khách sạn giả lập để trình diễn giao diện. Giá, đánh giá, địa chỉ, số điện thoại đều là minh họa; không có giấy phép kinh doanh thật; ảnh là ảnh minh họa có giấy phép Unsplash, không chụp tại cơ sở (<a href="{p}nguon-anh.html">nguồn ảnh</a>). Không có dữ liệu nào được gửi lên máy chủ. © <span data-year>2026</span></p>' if DEMO else ''}<p class="copy">{E(SET.get("copyright") or "")}</p>
 </div></footer>
 <div id="toasts" aria-live="polite"></div>
 <script src="{p}js/data.js"></script><script src="{p}js/art.js"></script><script src="{p}assets/site.js"></script>{'<script src="assets/intro.js"></script>' if path=='index.html' else ''}
@@ -131,6 +144,24 @@ MAP='''<svg viewBox="0 0 800 450" role="img" aria-labelledby="mapT mapD" xmlns="
 <g transform="translate(470 250)"><circle r="30" fill="#b5472c"/><path d="M-14 4 L0 -12 L14 4 V16 H-14z" fill="#fff"/></g><rect x="390" y="182" width="160" height="34" rx="17" fill="#2b2622"/><text x="470" y="205" text-anchor="middle" font-size="16" fill="#fff" font-weight="700" font-family="system-ui">Nhà Gió (demo)</text>
 <text x="640" y="380" font-size="18" fill="#1f5f63" font-family="system-ui" font-weight="700">Biển (minh họa)</text><text x="640" y="125" font-size="15" fill="#2d4a35" font-family="system-ui">Đồi thông</text></svg>'''
 
+def foot_contact(p):
+    S=SET;soc=S.get('social') or {}
+    li=''.join(f'<li><a class="soc" href="{E(soc[k])}" rel="noopener" target="_blank"><span aria-hidden="true">{ic}</span>{n}</a></li>' for k,n,ic in SOCIAL if soc.get(k))
+    tel=''.join(c for c in S.get('phone','') if c.isdigit() or c=='+')
+    return (f'<div><h2>{E(S.get("name") or "")}</h2><p>{E(S.get("address") or "")}'
+            +(f'<br>Điện thoại: <a href="tel:{tel}">{E(S["phone"])}</a>' if S.get('phone') else '')
+            +(f'<br>Email: <a href="mailto:{E(S["email"])}">{E(S["email"])}</a>' if S.get('email') else '')
+            +'</p>'+(f'<ul class="socials" aria-label="Mạng xã hội">{li}</ul>' if li else '')+'</div>')
+
+def slider(p):
+    if not BANNERS: return ''
+    n=len(BANNERS)
+    sl=''.join(f'<div class="slide{" on" if i==0 else ""}" id="sl{i}" role="group" aria-roledescription="slide" aria-label="{i+1} / {n}"{"" if i==0 else " aria-hidden=true"}><picture><source media="(max-width:760px)" srcset="{p}{E(b["m"])}" width="1200" height="900"><img src="{p}{E(b["d"])}" width="1920" height="600" alt="{E(b.get("alt") or "")}" {"fetchpriority=high" if i==0 else "loading=lazy"} decoding="async"></picture></div>' for i,b in enumerate(BANNERS))
+    ctl='' if n<2 else (f'<div class="bctl"><button type="button" class="cbtn" id="sprev" aria-label="Ảnh trước"><span aria-hidden="true">‹</span></button><div class="bdots" role="group" aria-label="Chọn ảnh banner">'
+        +''.join(f'<button type="button" class="bdot" data-go="{i}" aria-label="Ảnh {i+1}"{" aria-current=true" if i==0 else ""}></button>' for i in range(n))
+        +'</div><button type="button" class="cbtn" id="snext" aria-label="Ảnh tiếp theo"><span aria-hidden="true">›</span></button><button type="button" class="cbtn" id="splay" aria-label="Tạm dừng tự chạy" aria-pressed="false"><span aria-hidden="true">❚❚</span></button></div>')
+    return f'<section class="bnr" id="bnr" aria-roledescription="carousel" aria-label="Ảnh nổi bật"><div class="bvp" id="bvp" aria-live="off">{sl}</div>{ctl}</section>'
+
 def bbar(p):
     return f'''<form class="bbar" action="{p}dat-phong.html" method="get" aria-label="Kiểm tra phòng trống" novalidate>
 <div class="f"><label for="bb-ci">Nhận phòng</label><input id="bb-ci" name="ci" type="date" required></div>
@@ -138,16 +169,27 @@ def bbar(p):
 <div class="f g"><label for="bb-gg">Số khách</label><select id="bb-gg" name="g">{''.join(f'<option value="{i}"{" selected" if i==2 else ""}>{i} khách</option>' for i in range(1,9))}</select></div>
 <button class="btn primary lg" type="submit">Kiểm tra phòng</button><p class="err" role="alert"></p></form>'''
 
+def post_img(x,p,cls=''):
+    im=x.get('image') or {}
+    if not im.get('f'): return ''
+    return f'<img class="{cls}" src="{p}{E(im["f"])}" alt="{E(im.get("alt") or "")}" loading="lazy" decoding="async">'
+def post_card(x,p):
+    return f'<li class="card post-card">{post_img(x,p,"pc-img")}<div class="pc-b"><p class="sm muted"><time datetime="{E(x.get("published",""))}">{fmt_d(x.get("published"))}</time></p><h3><a href="{p}tin-tuc/{E(x["slug"])}/">{E(x["title"])}</a></h3><p class="muted">{E(x.get("summary") or md_plain(x.get("body","")))}</p></div></li>'
+def fmt_d(s):
+    return f'{s[8:10]}/{s[5:7]}/{s[:4]}' if s and len(s)>=10 else ''
+def news_home(p):
+    if not POSTS: return ''
+    return f'<section class="sec" aria-labelledby="h-news"><div class="wrap"><div class="sec-h"><div><p class="eyebrow">Tin tức</p><h2 id="h-news">Tin mới</h2></div><a href="tin-tuc/index.html">Tất cả tin →</a></div><ul class="grid post-grid">{"".join(post_card(x,p) for x in POSTS[:3])}</ul></div></section>'
 pages={}
 # --- Trang chủ
 p=''
 FEAT=[('🌊','Sát biển','Vài bước chân ra bãi cát (mô tả minh họa).'),('🏊','Hồ bơi','Hồ bơi ngoài trời mở 6:00–21:00.'),('🥐','Bữa sáng','Bữa sáng địa phương phục vụ tại sảnh.'),('🚲','Xe đạp','Mượn xe đạp dạo quanh khu phố.')]
 feats=''.join(f'<li class="feat"><div class="ico" aria-hidden="true">{i}</div><h3>{t}</h3><p>{d}</p></li>' for i,t,d in FEAT)
 pages['index.html']=('Khách sạn ven biển – đặt phòng trực tuyến','Nhà Gió (demo): khách sạn ven biển giả lập với 7 loại phòng, hồ bơi, bữa sáng. Website trình diễn – giá và nội dung minh họa.',f'''
-<section class="hero">{photo(P('hero')[0],p,sizes='100vw',eager=True)}<div class="wrap hero-in">
+{slider(p)}<section class="hero-txt"><div class="wrap">
 <p class="eyebrow">Khách sạn ven biển · bản demo</p><h1>Nghỉ ngơi nơi gió biển gặp đồi thông</h1>
 <p class="lead">7 loại phòng từ phòng đôi gác mái đến villa hồ bơi. Chọn ngày, xem tạm tính ngay – mọi giá trên trang là giá minh họa.</p>
-{bbar(p)}</div></section>
+{bbar(p)}</div></section>{news_home(p)}
 <section class="sec" aria-labelledby="h-rooms"><div class="wrap"><div class="sec-h"><div><p class="eyebrow">Lưu trú</p><h2 id="h-rooms">Phòng nổi bật</h2></div><a href="phong/index.html">Xem tất cả loại phòng →</a></div>
 <ul class="grid" style="list-style:none;padding:0;margin:0">{''.join(card(r,p,i,True) for i,r in enumerate([ROOMS[0],ROOMS[2],ROOMS[6]]))}</ul></div></section>
 <section class="sec alt" aria-labelledby="h-am"><div class="wrap"><div class="sec-h"><div><p class="eyebrow">Tiện ích</p><h2 id="h-am">Mọi thứ cho một kỳ nghỉ nhẹ nhàng</h2></div><a href="tien-ich.html">Tất cả tiện ích →</a></div>
@@ -300,11 +342,25 @@ pages['nguon-anh.html']=('Nguồn ảnh','Danh sách nguồn ảnh, nhiếp ản
 # --- 404
 pages['404.html']=('Không tìm thấy trang','Trang không tồn tại.',f'<section class="sec center"><div class="wrap"><p class="big404" aria-hidden="true">404</p><h1>Không tìm thấy trang</h1><p class="muted">Đường dẫn có thể đã thay đổi. Hãy quay lại trang chủ hoặc xem các loại phòng.</p><a class="btn primary" href="index.html">Về trang chủ</a> <a class="btn" href="phong/index.html">Xem phòng</a></div></section>',None)
 
+# --- Tin tức
+pages['tin-tuc/index.html']=('Tin tức','Tin tức và bài viết từ Nhà Gió (demo).',head('../','Tin tức','Tin tức, ưu đãi và gợi ý du lịch (nội dung minh họa).',[('index.html','Trang chủ'),(None,'Tin tức')])+(f'<section class="sec" style="padding-top:24px"><div class="wrap"><ul class="grid post-grid">{"".join(post_card(x,"../") for x in POSTS)}</ul></div></section>' if POSTS else '<section class="sec"><div class="wrap"><p class="muted">Chưa có bài viết nào.</p></div></section>'),None)
+POSTPAGES={}
+for x in POSTS:
+    pp='../../';im=x.get('image') or {}
+    body=(head(pp,E(x['title']),E(x.get('summary') or ''),[('index.html','Trang chủ'),('tin-tuc/index.html','Tin tức'),(None,E(x['title']))])
+      +f'<article class="sec post" style="padding-top:24px"><div class="wrap narrow"><p class="sm muted">Đăng ngày <time datetime="{E(x.get("published",""))}">{fmt_d(x.get("published"))}</time></p>{post_img(x,pp,"post-hero")}<div class="prose">{md_render(x.get("body",""),pp)}</div><p><a href="{pp}tin-tuc/index.html">← Tất cả tin tức</a></p></div></article>')
+    ld={"@context":"https://schema.org","@type":"BlogPosting","headline":x['title'],"datePublished":x.get('published'),"dateModified":x.get('updated'),"description":x.get('summary') or md_plain(x.get('body',''))}
+    og=(SITE+'/'+im['f'],None,None,im.get('alt','')) if im.get('f') else None
+    POSTPAGES[f'tin-tuc/{x["slug"]}/index.html']=(x['title'],x.get('summary') or md_plain(x.get('body','')),body,None,ld,og)
+shutil.rmtree(os.path.join(ROOT,'tin-tuc'),ignore_errors=True)
+for path,(t,d,b,c,ld,og) in POSTPAGES.items():
+    fp=os.path.join(ROOT,path);os.makedirs(os.path.dirname(fp),exist_ok=True)
+    open(fp,'w',encoding='utf-8').write(page(path,t,d,b,c,ld,og=og,can=SITE+'/'+path[:-len('index.html')],ogtype='article'))
 for path,v in pages.items():
     title,desc,body,cur=v[:4]; ld=v[4] if len(v)>4 else None
     fp=os.path.join(ROOT,path); os.makedirs(os.path.dirname(fp),exist_ok=True)
     open(fp,'w',encoding='utf-8').write(page(path,title,desc,body,cur,ld))
-urls=''.join(f'<url><loc>{SITE}/{"" if k=="index.html" else k}</loc></url>' for k in pages if k!='404.html')
+urls=''.join(f'<url><loc>{SITE}/{"" if k=="index.html" else k}</loc></url>' for k in pages if k!='404.html')+''.join(f'<url><loc>{SITE}/{k[:-10]}</loc><lastmod>{(POSTS[i].get("updated") or "")[:10]}</lastmod></url>' for i,k in enumerate(POSTPAGES))
 open(os.path.join(ROOT,'sitemap.xml'),'w').write(f'<?xml version="1.0" encoding="UTF-8"?>\n<!-- Bản demo: tên miền là placeholder -->\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
-open(os.path.join(ROOT,'robots.txt'),'w').write(f'# Bản demo – chặn lập chỉ mục. Bỏ Disallow khi lên web thật.\nUser-agent: *\nDisallow: /\nSitemap: {SITE}/sitemap.xml\n')
+open(os.path.join(ROOT,'robots.txt'),'w').write((f'# Bản demo – chặn lập chỉ mục (tắt bằng công tắc "Chế độ demo" trong trang quản trị).\nUser-agent: *\nDisallow: /\n' if DEMO else 'User-agent: *\nAllow: /\n')+f'Sitemap: {SITE}/sitemap.xml\n')
 print(len(pages),'pages')

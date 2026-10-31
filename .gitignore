@@ -1,0 +1,10 @@
+# Dữ liệu vận hành của trang quản trị (phiên, nhật ký, bản sao lưu, cấu hình bí mật) – không bao giờ commit
+var/
+*.env
+admin.env
+config.local*
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.tmp

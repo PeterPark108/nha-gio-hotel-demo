@@ -145,3 +145,27 @@ if('IntersectionObserver' in window&&!still()){
   const p=el.parentElement;if(p&&(p.matches('.grid,.masonry,.split'))){const idx=[...p.children].indexOf(el);el.style.setProperty('--rv-d',Math.min(idx%4,3)*70+'ms')}
   el.classList.add('rv-up');io.observe(el)})}
 })();
+/* Banner ảnh trang chủ: chỉ ảnh, điều khiển nằm dưới ảnh. Tự chạy 5,5 s; dừng khi rê chuột/focus/chạm; tôn trọng reduced-motion. */
+(function(){'use strict';
+var bn=document.getElementById('bnr');if(!bn)return;
+var sl=bn.querySelectorAll('.slide'),dots=bn.querySelectorAll('.bdot'),vp=document.getElementById('bvp'),pb=document.getElementById('splay'),n=sl.length,i=0,t=null,hold=false;
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches,stopped=RM;
+function show(k,user){i=(k+n)%n;for(var j=0;j<n;j++){var on=j===i;sl[j].classList.toggle('on',on);sl[j].setAttribute('aria-hidden',on?'false':'true');sl[j].inert=!on;if(dots[j])dots[j].setAttribute('aria-current',on?'true':'false')}
+ bn.dataset.i=i;vp.setAttribute('aria-live',user||stopped?'polite':'off');var im=sl[i].querySelector('img');if(im&&im.loading==='lazy')im.loading='eager'}
+function auto(){clearInterval(t);t=null;if(n>1&&!stopped&&!hold)t=setInterval(function(){show(i+1)},5500);bn.dataset.auto=t?'1':'0'}
+function setStop(v){stopped=v;if(pb){pb.setAttribute('aria-pressed',String(v));pb.setAttribute('aria-label',v?'Tiếp tục tự chạy':'Tạm dừng tự chạy');pb.firstChild.textContent=v?'▶':'❚❚'}auto()}
+show(0);setStop(stopped);
+if(n<2)return;
+document.getElementById('sprev').onclick=function(){show(i-1,1);auto()};
+document.getElementById('snext').onclick=function(){show(i+1,1);auto()};
+if(pb)pb.onclick=function(){setStop(!stopped)};
+dots.forEach(function(d){d.onclick=function(){show(+d.dataset.go,1);auto()}});
+bn.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){show(i-1,1);auto()}else if(e.key==='ArrowRight'){show(i+1,1);auto()}});
+function H(v){hold=v;auto()}
+bn.addEventListener('mouseenter',function(){H(true)});bn.addEventListener('mouseleave',function(){if(!bn.contains(document.activeElement))H(false)});
+bn.addEventListener('focusin',function(){H(true)});bn.addEventListener('focusout',function(e){if(!bn.contains(e.relatedTarget)&&!bn.matches(':hover'))H(false)});
+bn.addEventListener('touchstart',function(){H(true)},{passive:true});
+var sx=null;bn.addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+bn.addEventListener('touchend',function(e){if(sx===null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>40){show(i+(dx<0?1:-1),1)}},{passive:true});
+document.addEventListener('visibilitychange',function(){H(document.hidden)});
+})();

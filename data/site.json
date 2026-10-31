@@ -1,0 +1,15 @@
+{
+ "demo_mode": true,
+ "name": "Nhà Gió (demo)",
+ "address": "Địa chỉ minh họa, thành phố ven biển, Việt Nam",
+ "phone": "0900 000 000",
+ "email": "xinchao@vidu.test",
+ "social": {
+  "facebook": "",
+  "zalo": "",
+  "instagram": "",
+  "tiktok": "",
+  "youtube": ""
+ },
+ "copyright": "© 2026 Nhà Gió (demo). Nội dung minh họa."
+}

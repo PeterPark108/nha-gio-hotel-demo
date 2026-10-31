@@ -1,4 +1,4 @@
-# Bản demo – chặn lập chỉ mục. Bỏ Disallow khi lên web thật.
+# Bản demo – chặn lập chỉ mục (tắt bằng công tắc "Chế độ demo" trong trang quản trị).
 User-agent: *
 Disallow: /
 Sitemap: https://example.invalid/nha-gio/sitemap.xml

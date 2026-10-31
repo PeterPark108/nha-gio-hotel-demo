@@ -2,7 +2,7 @@
 """Bằng chứng chuyển động: khung hình intro (0.3/0.9/1.5/2.2s), trạng thái hover/reveal, video mobile 390x844. Chạy: python3 tools/motion.py"""
 import os,threading,http.server,functools,subprocess,glob,shutil
 from playwright.sync_api import sync_playwright
-ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)));OUT=os.path.join(ROOT,'screenshots','hotel-v2')
+ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)));OUT=os.environ.get('OUT') or os.path.join(ROOT,'screenshots','hotel-v2')
 class Q(http.server.SimpleHTTPRequestHandler):
     def log_message(s,*a):pass
 srv=http.server.ThreadingHTTPServer(('127.0.0.1',8767),functools.partial(Q,directory=ROOT));threading.Thread(target=srv.serve_forever,daemon=True).start()
