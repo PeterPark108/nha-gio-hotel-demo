@@ -1,0 +1,28 @@
+{
+ "banners": [
+  {
+   "id": "seed1",
+   "d": "assets/uploads/bn-2eb81816f25e99cf.webp",
+   "m": "assets/uploads/bn-2eb81816f25e99cf-m.webp",
+   "alt": "Hồ bơi vô cực giữa hàng dừa nhìn ra biển (ảnh minh họa)"
+  },
+  {
+   "id": "seed2",
+   "d": "assets/uploads/bn-529ae48c74040f69.webp",
+   "m": "assets/uploads/bn-529ae48c74040f69-m.webp",
+   "alt": "Bãi biển và rặng dừa trước bungalow (ảnh minh họa)"
+  },
+  {
+   "id": "seed3",
+   "d": "assets/uploads/bn-4511e08535129137.webp",
+   "m": "assets/uploads/bn-4511e08535129137-m.webp",
+   "alt": "Sân hiên và ghế nằm cạnh hồ bơi của villa (ảnh minh họa)"
+  },
+  {
+   "id": "seed4",
+   "d": "assets/uploads/bn-61811c388393cb92.webp",
+   "m": "assets/uploads/bn-61811c388393cb92-m.webp",
+   "alt": "Đồi thông lúc hoàng hôn gần khách sạn (ảnh minh họa)"
+  }
+ ]
+}

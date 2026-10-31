@@ -1,0 +1,20 @@
+{
+ "posts": [
+  {
+   "id": "p-mau-1",
+   "slug": "chao-mung-den-nha-gio",
+   "title": "Chào mừng đến Nhà Gió (bài mẫu)",
+   "summary": "Bài viết mẫu giới thiệu khách sạn demo Nhà Gió – nội dung minh họa.",
+   "body": "## Bài viết mẫu\nĐây là **bài viết mẫu** để minh họa trang *Tin tức*. Nội dung sẽ được thay khi có thông tin thật.\n\n- Hồ bơi ngoài trời (minh họa)\n- Bữa sáng địa phương (minh họa)\n\nXem thêm [các loại phòng](/phong/index.html).",
+   "image": {
+    "f": "assets/photos/tien-ich/01-ho-boi.jpg",
+    "t": "assets/photos/tien-ich/01-ho-boi.jpg",
+    "alt": "Hồ bơi ngoài trời giữa hàng dừa (ảnh minh họa)"
+   },
+   "status": "published",
+   "created": "2026-11-01T05:00:00+07:00",
+   "updated": "2026-11-01T05:00:00+07:00",
+   "published": "2026-11-01T05:00:00+07:00"
+  }
+ ]
+}
